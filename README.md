@@ -3,15 +3,15 @@
 给你另一双眼睛，看另一面豆瓣
 
 ###搭建运行环境
-1.安装MongoDB
-2.安装Nginx
-3.安装php-fpm
-4.安装连接到 MongoDB的PHP扩展库MongoClient
-5.安装composer
+1. 安装MongoDB
+2. 安装Nginx
+3. 安装php-fpm
+4. 安装连接到 MongoDB的PHP扩展库MongoClient
+5. 安装composer
 
 ###安装相关依赖
-1.进入项目主目录
-2.执行composer install
+1. 进入项目主目录
+2. 执行composer install
 
 ###加入类似以下配置到Nginx配置文件中
     server {
@@ -37,9 +37,8 @@
 
 
 ###豆瓣电影数据来源
-1.编写爬虫并入库到MongoDB，库名douban
-
-###文档格式如下
+1. 编写爬虫并入库到MongoDB，库名douban
+2. 文档格式如下
     {
         "actors" : [
             "邓超",
