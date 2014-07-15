@@ -1,0 +1,91 @@
+{% extends "layout.html" %}
+
+{% block header %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ STATIC_URL_PATH }}/highlight/styles/default.css">
+    <script src="{{ STATIC_URL_PATH }}/highlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block container  %}
+<div class="doc-preface">
+    <ol>
+        <li>指令分两段，第一个{}代表条件，第二个{}代表排序，格式: {  }.{  }</li>
+        <li>所有键名必须用英文双引号包裹，单引号无效</li>
+        <li>键值除了数字，其他必须用英文双引号包裹，单引号无效</li>
+        <li>所有符号必须是英文符号，中文符号无效</li>
+        <li>本手册说的“以上”，比如“8.5以上”，指的就是大于等于8.5</li>
+        <li>本手册只演示了部分指令，请自行举一反三</li>
+        <li>所有可用的键名请参见<a target="_blank" href="/movie">"展开键名列表"</a>，点击即可展现</li>
+    </pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":8.5}, "channel":"mv" }.{  }'>评分8.5以上的电影</a></h1><code class="json">{ "average":{"$gte":8.5}, "channel":"mv" }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":8.5}, "channel":"tv" }.{  }'>评分8.5以上的电视剧</a></h1><code class="json">{ "average":{"$gte":8.5}, "channel":"tv" }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":8.5} }.{  }'>评分8.5以上的电视剧/电影</a></h1><code class="json">{ "average":{"$gte":8.5} }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":10, "channel":"mv" }.{  }'>评分是满分(即10分)的电影</a></h1><code class="json">{ "average":10, "channel":"mv" }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ }.{ "review":-1 }'>按影评降序</a></h1><code class="json">{ }.{ "review":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "year":2014, "channel":"mv" }.{ "review":-1 }'>2014年影评最高的电影</a></h1><code class="json">{ "year":2014, "channel":"mv" }.{ "review":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "year":2014, "channel":"mv" }.{ "average":-1 }'>2014年评分最高的电影</a></h1><code class="json">{ "year":2014, "channel":"mv" }.{ "average":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":9.0, "genres":"爱情" }.{  }'>评分9.0以上的爱情电影/电视剧</a></h1><code class="json">{ "average":9.0, "genres":"爱情" }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "tags":{"$in":["色情","情色"]} }.{ "average":-1 }'>标签带有“情色”或“色情”的电影/电视剧；以评分降序</a></h1><code class="json">{ "tags":{"$in":["色情","情色"]} }.{ "average":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":8.5}, "languages":"英语" }.{ "average":-1 }'>评分8.5以上、语言为英语，不限电视剧和电影；按评分降序</a></h1><code class="json">{ "average":{"$gte":8.5}, "languages":"英语" }.{ "average":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":8.5}, "languages":{"$in":["英语","日语"]} }.{  }'>评分8.5以上、语言为英语或日语，不限电视剧和电影</a></h1><code class="json">{ "average":{"$gte":8.5}, "languages":{"$in":["英语","日语"]} }.{  }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte":9.0} }.{ "average": -1 }'>评分9.0以上的电影/电视剧、按评分降序</a></h1><code class="json">{ "average":{"$gte":9.0} }.{ "average": -1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "average":{"$gte": 9.0}, "vote":{"$gte": 10000} }.{ "average": -1, "vote":-1 }'>评分9.0以上、投票数1万以上的电影；先按评分降序、后按投票数降序</a></h1><code class="json">{ "average":{"$gte": 9.0}, "vote":{"$gte": 10000} }.{ "average": -1, "vote":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "directors":"詹姆斯·卡梅隆", "channel":"mv", "average":{"$gte":9.0} }.{ "average": -1, "vote":-1 }'>由著名导演 “詹姆斯·卡梅隆” 所导演的评分9.0以上的电影；先按评分降序、后按投票数降序</a></h1><code class="json">{ "directors":"詹姆斯·卡梅隆", "channel":"mv", "average":{"$gte":9.0} }.{ "average": -1, "vote":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "actors":{"$all":["李连杰","成龙"]}, "channel":"mv", "average":{"$gte":5.0} }.{ "review":-1 }'>由“成龙”，“李连杰”一起所主演的评分5.0以上的电影，按影评数降序</a></h1><code class="json">{ "actors":{"$all":["李连杰","成龙"]}, "channel":"mv", "average":{"$gte":5.0} }.{ "review":-1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "runtime":{"$lte":20}, "average":{"$gte":9.0}, "channel":"mv" }.{ "year":1 }'>评分9.0以上，片长20分以内的短电影；按年份升序</a></h1><code class="json">{ "runtime":{"$lte":20}, "average":{"$gte":9.0}, "channel":"mv" }.{ "year":1 }</code></pre>
+</div>
+
+<div class="usage-code">
+    <pre><h1><a target="_blank" href='/movie/?cmd={ "countries":"日本", "average":{"$gte":8.0}, "genres":{"$in": ["恐怖","惊悚"]}, "channel":"mv" }.{  }'>评分8.0以上的日本恐怖或惊悚的电影</a></h1><code class="json">{ "countries":"日本", "average":{"$gte":8.0}, "genres":{"$in": ["恐怖","惊悚"]}, "channel":"mv" }.{  }</code></pre>
+</div>
+
+{% endblock %}

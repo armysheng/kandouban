@@ -1,0 +1,328 @@
+{% extends "layout.html" %}
+
+{% block header %}
+  {{ parent() }}
+  <script src="{{ STATIC_URL_PATH }}/jQuery/jQuery-1.11.1.min.js"></script>
+  <script src="{{ STATIC_URL_PATH }}/jQuery/jQuery-Cookie.js"></script>
+  <script>
+  $(function() {
+    $(".movie-list  tbody  tr  td  a").click(function(event) {
+      event.stopPropagation();
+    })
+    $(".movie-list > tbody > tr").click(function() {
+      if( !$(this).next("tr").hasClass("hide") ) {
+        $(this).next("tr").addClass("hide");
+      }else {
+        $(this).next("tr").removeClass("hide");
+      }
+    });
+    $(".movie-info").click(function() {
+      $(this).addClass("hide");
+    });
+    if ($.cookie("cmd_keys")=="on") {
+      $(".command-keys").removeClass("hide");
+      $(".show-command-keys-btn").text("隐藏键名列表");
+    }
+    $(".show-command-keys-btn").click(function(event) {
+      event.preventDefault();
+      var $command_keys = $(".command-keys");
+
+      if( $command_keys.hasClass("hide") ) {
+        $command_keys.removeClass("hide");
+        $(this).text("隐藏键名列表");
+        $.cookie("cmd_keys", "on", { expires: 7, path: "/" });
+      } else {
+        $command_keys.addClass("hide");
+        $.cookie("cmd_keys", "off", { expires: 7, path: "/" });
+        $(this).text("展开键名列表");
+      }
+    })
+  })
+  </script>  
+{% endblock %}
+
+{% block container %}
+<div class="main">
+  <div class="search-bar">
+    <form action="/movie/" method="get">
+        <div class="input-group">
+          <input type="text" spellcheck="false" class="form-control command" baidusug="1" placeholder="" autofocus="" name="cmd" autocomplete="off" value="{{ command }}" >
+          <span class="input-group-btn">
+            <button class="btn btn-default btn-primary" type="submit">
+              <span class="glyphicon glyphicon-print"></span>&nbsp;执行
+            </button>
+          </span> 
+        </div>
+      </form>    
+  </div>
+  <div class="command-help">
+    <a href="/" class="show-command-keys-btn">展开键名列表</a>
+    <a href="/doc" target="_blank">搜索指令手册</a>
+  </div>
+  <div class="command-keys row hide">
+    <div class="col-md-4">
+    <ul>
+      <li>
+        <b>name</b>
+        <span>名称</span>
+      </li>     
+      <li>
+        <b>average</b>
+        <span>评分</span>
+      </li>           
+      <li>
+        <b>vote</b>
+        <span>投票人数</span>
+      </li>      
+      <li>
+        <b>runtime</b>
+        <span>片长</span>
+      </li> 
+      <li>
+        <b>watched</b>
+        <span>已看人数</span>
+      </li> 
+      <li>
+        <b>wish</b>
+        <span>想看人数</span>
+      </li> 
+      <li>
+        <b>comment</b>
+        <span>短评数</span>
+      </li> 
+      <li>
+        <b>question</b>
+        <span>提问数</span>
+      </li> 
+      <li>
+        <b>review</b>
+        <span>影评数</span>
+      </li> 
+      <li>
+        <b>discussion</b>
+        <span>讨论数</span>
+      </li> 
+      <li>
+        <b>image</b>
+        <span>图片数</span>
+      </li> 
+      <li>
+        <b>channel</b>
+        <span>频道</span>
+      </li>
+    </ul>
+    </div>
+    <div class="col-md-4">
+    <ul>       
+      <li>
+        <b>directors</b>
+        <span>导演</span>
+      </li> 
+      <li>
+        <b>actors</b>
+        <span>主演</span>
+      </li> 
+      <li>
+        <b>languages</b>
+        <span>语言</span>
+      </li> 
+      <li>
+        <b>genres</b>
+        <span>类型</span>
+      </li> 
+      <li>
+        <b>tags</b>
+        <span>标签</span>
+      </li> 
+      <li>
+        <b>countries</b>
+        <span>制片国家/地区</span>
+      </li>                 
+    </ul>
+    </div>
+    <div class="col-md-4">
+    <ul>
+      <li>
+        <b>$gte</b>
+        <span>大于等于</span>
+      </li>   
+      <li>
+        <b>$lte</b>
+        <span>小于等于</span>
+      </li>  
+      <li>
+        <b>$lt</b>
+        <span>小于</span>
+      </li>
+      <li>
+        <b>$gt</b>
+        <span>大于</span>
+      </li> 
+      <li>
+        <b>$in</b>
+        <span>含指定选项任意值</span>
+      </li>      
+      <li>
+        <b>$all</b>
+        <span>含指定选项所有值</span>
+      </li>       
+    </ul>
+    </div>
+  </div>
+  <table class="table table-hover movie-list">
+      <thead>
+        <tr>
+          <th>编号</th>
+          <th>名字</th>
+          <th>评分</th>
+          <th>投票数</th>
+          <th>影评数</th>
+          <th>片长</th>
+          <th>已看人数</th>
+          <th>年份</th>
+          <th>频道</th>
+          <th>类型</th>
+        </tr>
+      </thead>
+    <tbody>
+      {% if error %}
+        <tr><td colspan="10" class="error">{{ error }}</td></tr>
+      {% else %}
+        {% for doc in docs %}
+        <tr>
+          <td>{{ loop.index+limit*(page-1) }}</td>
+          <td>
+            <a target="_blank" href="http://movie.douban.com/subject/{{ doc.subject_id }}/">
+              {{ doc.name }}
+            </a>
+          </td>
+          <td>{{ doc.average }}</td>
+          <td>{{ doc.vote }}</td>
+          <td>{{ doc.review }}</td>
+          <td>{{ doc.runtime }}</td>
+          <td>{{ doc.watched }}</td>
+          <td><a href='/movie/?cmd={ "year":{{doc.year}} }.{ }'>{{ doc.year }}</a></td>
+          <td>
+            {% if doc.channel == "mv" %}
+              <a href='/movie/?cmd={ "channel":"mv" }.{ }'>电影</a>
+            {% elseif doc.channel == "tv" %}
+              <a href='/movie/?cmd={ "channel":"tv" }.{ }'>电视剧</a>
+            {% endif %}
+          </td>
+          <td>
+            {% for gen in doc.genres %}
+              <a href='/movie/?cmd={ "genres":"{{gen}}" }.{ }'>{{ gen }}</a>
+            {% endfor %}
+          </td>        
+        </tr>
+        <tr class="movie-info hide">
+          <td colspan="10">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>评分</th>
+                  <th>影评</th>
+                  <th>投票</th>
+                  <th>年份</th>
+                  <th>评论</th>
+                  <th>讨论</th>
+                  <th>提问</th>
+                  <th>图片</th>
+                  <th>想看</th>
+                  <th>已看</th>
+                </tr>
+              </thead>
+              <tbody>
+                <td>{{ doc.average }}</td>
+                <td>{{ doc.review }}</td>
+                <td>{{ doc.vote }}</td>
+                <td>{{ doc.year }}</td>
+                <td>{{ doc.comment }}</td>
+                <td>{{ doc.discussion }}</td>
+                <td>{{ doc.question }}</td>
+                <td>{{ doc.image }}</td>
+                <td>{{ doc.wish }}</td>
+                <td>{{ doc.watched }}</td>
+              </tbody>
+            </table>
+
+            <p>
+              <b>名字：</b>
+              <a target="_blank" 
+              href="http://movie.douban.com/subject/{{ doc.subject_id }}/">{{ doc.name }}</a>
+            </p>
+
+            {% if doc.directors %}
+            <p>
+              <b>导演：</b>
+              {% for director in doc.directors %}
+              <a href='/movie/?cmd={ "directors": "{{ director }}" }.{}'>{{ director }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.actors %}
+            <p>
+              <b>主演：</b>
+              {% for actor in doc.actors %}
+              <a href='/movie/?cmd={ "actors": "{{ actor }}" }.{}'>{{ actor }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.genres %}
+            <p>
+              <b>类型：</b>
+              {% for genre in doc.genres %}
+              <a href='/movie/?cmd={ "genres": "{{ genre }}" }.{}'>{{ genre }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.languages %}
+            <p>
+              <b>语言：</b>
+              {% for language in doc.languages %}
+              <a href='/movie/?cmd={ "languages": "{{ language }}" }.{}'>{{ language }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.tags %}
+            <p>
+              <b>标签：</b>
+              {% for tag in doc.tags %}
+              <a href='/movie/?cmd={ "tags": "{{ tag }}" }.{}'>{{ tag }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.countries %}
+            <p>
+              <b>国家：</b>
+              {% for country in doc.countries %}
+              <a href='/movie/?cmd={ "countries": "{{ country }}" }.{}'>{{ country }}</a>
+              {% endfor %}
+            </p>
+            {% endif %}
+
+            {% if doc.summary %}
+            <p>
+              <b>简介：</b>
+              <p>
+                {% autoescape false %}
+                {{ doc.summary }}
+                {% endautoescape %}
+              </p>
+            </p>
+            {% endif %}
+
+          </td>
+        </tr>
+        {% endfor %}      
+      {% endif %}
+    </tbody>
+  </table>
+  {% include "pagination.html" %}
+</div>
+{% endblock %}

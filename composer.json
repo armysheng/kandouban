@@ -1,0 +1,13 @@
+{
+    "require": {
+        "twig/twig": "1.16.0",
+        "mikecao/flight": "1.1"
+    },  
+
+    "autoload": {
+        "psr-0": {
+            "Service\\": "src/",
+            "Exceptions\\": "src/"
+        }
+    }   
+}

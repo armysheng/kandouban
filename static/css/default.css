@@ -1,0 +1,97 @@
+body {
+    font-family: Arial,​sans-serif;
+    color: green;
+}
+body, .pagination li a,.btn-primary, .btn-primary:hover, .btn-primary:focus,.command {
+    background: black;
+}
+.main {
+    margin-top: 20px;
+}
+.movie-list {
+    margin-top: 15px;
+}
+.movie-list li {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+.pagination {
+    margin-top: 0px;
+}
+.pagination, .pagination > li:first-child > a, .pagination > li:last-child > a{
+    border-radius: 0px;
+}
+
+.command, .command:focus, .pagination li a, .btn-primary, .btn-primary:hover, .btn-primary:focus{
+    border-color: green;
+}
+.command,.command-preface {
+    font-family: "consolas";
+    width: 80%;
+    border-radius: 0px;
+    box-shadow: none;
+    color: white;
+}
+.command:focus{
+    box-shadow: none;
+}
+.command-help {
+    margin-top: 2px;
+}
+
+.command-help a{
+    margin-right: 15px;
+    font-size: 12px;
+}
+.movie-list tbody tr:hover{
+    cursor: pointer;
+}
+.btn {
+    border-radius: 0px;
+}
+
+.pagination>.disabled>span, .pagination>.disabled>span:hover, 
+.pagination>.disabled>span:focus, .pagination>.disabled>a, 
+.pagination>.disabled>a:hover, .pagination>.disabled>a:focus,
+.command-keys ul b, .usage-code h1,.btn-primary, .btn-primary:hover, 
+.btn-primary:focus,.error,a{
+    color: red;
+}
+.movie-info > td {
+    background-color: #f5f5f5;
+}
+.movie-info a{
+    margin-right: 10px;
+}
+.command-keys {
+    margin: 0px;
+    background: white;
+}
+.command-keys ul {
+    padding-left: 0px;
+    list-style: none;
+}
+.command-keys ul b{
+    display: block;
+    float: left;
+    width: 100px;
+}
+.col-md-4 {
+    padding: 0px;
+}
+.usage-code pre {
+    padding-bottom: 10px;
+    border-radius: 0px;
+}
+.usage-code h1{
+    font-size: 20px;
+}
+.doc-preface {
+    color: black;
+    padding: 5px 0px;
+    margin-bottom: 15px;
+    background: #f5f5f5;
+}
+.doc-preface li{
+    margin-bottom: 2px;
+}
