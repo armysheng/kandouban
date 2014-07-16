@@ -38,6 +38,7 @@
 
 ###豆瓣电影数据来源
 1. 编写爬虫并入库到MongoDB，库名douban
+2. 也可以使用本人用Python写的爬虫，[https://github.com/laomayi/doubanspiders](https://github.com/laomayi/doubanspiders)
 
 ###文档格式如下
     {
