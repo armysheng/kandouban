@@ -1,6 +1,5 @@
 <?php
 namespace Service;
-require_once("src/Misc/functions.php");
 
 class Movie {
     public function __construct() {
@@ -50,8 +49,8 @@ class Movie {
                 $command = "";
             }
 
-            if ( array_diff(\Misc\recursive_keys($spec), $this->allow_cmd_keys)
-                    or array_diff(\Misc\recursive_keys($sort), $this->allow_cmd_keys) ) {
+            if ( array_diff(\Misc\Functions::recursive_keys($spec), $this->allow_cmd_keys)
+                    or array_diff(\Misc\Functions::recursive_keys($sort), $this->allow_cmd_keys) ) {
                 throw new \Exceptions\CommandException(HAS_ERR_KEYS);
             }
 
