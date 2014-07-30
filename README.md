@@ -1,6 +1,6 @@
 #kandouban
 
-给你另一双眼睛，看另一面豆瓣
+给你另一双眼睛，看另一面豆瓣，writen by PHP。
 
 ###搭建运行环境
 1. 安装MongoDB
